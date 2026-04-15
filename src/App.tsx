@@ -6,7 +6,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Play, Pause, Volume2, VolumeX, Instagram, Youtube, SkipBack, SkipForward } from 'lucide-react';
 import { motion } from 'motion/react';
-import { TwitterTimelineEmbed } from 'react-twitter-embed';
 import { Schedule } from './components/Schedule';
 import { getProgramInfo } from './data/schedule';
 
@@ -93,7 +92,7 @@ export default function App() {
         </div>
 
         {/* Main Container */}
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_350px] gap-[30px] flex-1">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-[30px] flex-1">
           
           {/* Player Card */}
           <div className="bg-[rgba(255,255,255,0.08)] backdrop-blur-[25px] border border-[rgba(255,255,255,0.12)] rounded-[32px] p-6 md:p-10 flex flex-col justify-center items-center text-center shadow-2xl h-full">
@@ -177,57 +176,36 @@ export default function App() {
 
           </div>
 
-          {/* Social Hub & Feed */}
-          <div className="flex flex-col gap-5 h-full">
-            <div className="grid grid-cols-2 gap-3">
-              <SocialCard 
-                href="https://wa.me/5511988277967" 
-                icon={<WhatsappIcon className="w-5 h-5" />} 
-                title="WhatsApp" 
-                description="(11) 98827-7967" 
-                iconColorClass="text-[#25D366]" 
-              />
-              <SocialCard 
-                href="https://instagram.com/radio520oficial" 
-                icon={<Instagram className="w-5 h-5" />} 
-                title="Instagram" 
-                description="@radio520oficial" 
-                iconColorClass="text-[#E1306C]" 
-              />
-              <SocialCard 
-                href="https://youtube.com/@radio520real?si=F1u1CbUDmjePt9Pn" 
-                icon={<Youtube className="w-5 h-5" />} 
-                title="YouTube" 
-                description="@radio520real" 
-                iconColorClass="text-[#FF0000]" 
-              />
-              <SocialCard 
-                href="https://x.com/radio_520" 
-                icon={<XIcon className="w-4 h-4" />} 
-                title="X / Twitter" 
-                description="@radio_520" 
-                iconColorClass="text-white" 
-              />
-            </div>
-
-            {/* Twitter Feed */}
-            <div className="bg-[rgba(255,255,255,0.08)] backdrop-blur-[20px] border border-[rgba(255,255,255,0.12)] rounded-[20px] p-4 flex-1 flex flex-col min-h-[300px] shadow-xl">
-              <div className="flex items-center gap-2 mb-3 px-1">
-                <XIcon className="w-4 h-4 text-white" />
-                <h3 className="text-white font-bold text-sm">@radio_520 no X</h3>
-              </div>
-              <div className="flex-1 rounded-[12px] overflow-hidden bg-black/20">
-                <TwitterTimelineEmbed
-                  sourceType="profile"
-                  screenName="radio_520"
-                  options={{ height: 400, theme: 'dark', tweetLimit: 3 }}
-                  noHeader
-                  noFooter
-                  noBorders
-                  transparent
-                />
-              </div>
-            </div>
+          {/* Social Hub */}
+          <div className="flex flex-col gap-4">
+            <SocialCard 
+              href="https://wa.me/5511988277967" 
+              icon={<WhatsappIcon className="w-6 h-6" />} 
+              title="WhatsApp" 
+              description="(11) 98827-7967" 
+              iconColorClass="text-[#25D366]" 
+            />
+            <SocialCard 
+              href="https://instagram.com/radio520oficial" 
+              icon={<Instagram className="w-6 h-6" />} 
+              title="Instagram" 
+              description="@radio520oficial" 
+              iconColorClass="text-[#E1306C]" 
+            />
+            <SocialCard 
+              href="https://youtube.com/@radio520real?si=F1u1CbUDmjePt9Pn" 
+              icon={<Youtube className="w-6 h-6" />} 
+              title="YouTube" 
+              description="@radio520real" 
+              iconColorClass="text-[#FF0000]" 
+            />
+            <SocialCard 
+              href="https://x.com/radio_520" 
+              icon={<XIcon className="w-5 h-5" />} 
+              title="X / Twitter" 
+              description="@radio_520" 
+              iconColorClass="text-white" 
+            />
           </div>
         </div>
 
@@ -253,14 +231,14 @@ function SocialCard({ href, icon, title, description, iconColorClass }: { href: 
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="bg-[rgba(255,255,255,0.08)] backdrop-blur-[20px] border border-[rgba(255,255,255,0.12)] rounded-[16px] p-3 flex flex-col items-start gap-2 transition-transform hover:scale-[1.02] hover:bg-[rgba(255,255,255,0.12)]"
+      className="bg-[rgba(255,255,255,0.08)] backdrop-blur-[20px] border border-[rgba(255,255,255,0.12)] rounded-[20px] p-5 flex items-center gap-[15px] transition-transform hover:scale-[1.02] hover:bg-[rgba(255,255,255,0.12)]"
     >
-      <div className={`w-[36px] h-[36px] rounded-[10px] flex items-center justify-center bg-[rgba(255,255,255,0.05)] ${iconColorClass}`}>
+      <div className={`w-[44px] h-[44px] rounded-[12px] flex items-center justify-center bg-[rgba(255,255,255,0.05)] ${iconColorClass}`}>
         {icon}
       </div>
       <div className="text-left">
-        <h4 className="text-[13px] mb-0.5 font-bold text-white leading-tight">{title}</h4>
-        <p className="text-[11px] text-[rgba(255,255,255,0.6)] leading-tight">{description}</p>
+        <h4 className="text-[15px] mb-0.5 font-bold text-white leading-tight">{title}</h4>
+        <p className="text-[13px] text-[rgba(255,255,255,0.6)] leading-tight">{description}</p>
       </div>
     </a>
   );
