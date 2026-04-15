@@ -6,7 +6,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Play, Pause, Volume2, VolumeX, Instagram, Youtube, SkipBack, SkipForward } from 'lucide-react';
 import { motion } from 'motion/react';
-import { Schedule } from './components/Schedule';
 import { getProgramInfo } from './data/schedule';
 
 const WhatsappIcon = ({ className }: { className?: string }) => (
@@ -208,9 +207,6 @@ export default function App() {
             />
           </div>
         </div>
-
-        {/* Schedule Section */}
-        <Schedule />
 
         {/* Hidden Audio Element */}
         <audio
