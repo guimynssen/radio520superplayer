@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useRef, useEffect } from 'react';
-import { Play, Pause, Volume2, VolumeX, Instagram, Youtube, SkipBack, SkipForward, X } from 'lucide-react';
+import { Play, Pause, Volume2, VolumeX, Instagram, Youtube, SkipBack, SkipForward, X, Share2, RefreshCw } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { HeadlinesTicker } from './components/HeadlinesTicker';
 import { getProgramInfo } from './data/schedule';
@@ -32,6 +32,7 @@ export default function App() {
 
   const [programInfo, setProgramInfo] = useState(getProgramInfo());
   const [showWhatsappPopup, setShowWhatsappPopup] = useState(false);
+  const [showCopiedToast, setShowCopiedToast] = useState(false);
 
   useEffect(() => {
     // Show WhatsApp popup after 30 seconds
@@ -78,6 +79,32 @@ export default function App() {
     }
   };
 
+  const handleRefresh = () => {
+    window.location.reload();
+  };
+
+  const handleShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: 'Rádio 520',
+          text: 'Ouça a Rádio 520 ao vivo!',
+          url: window.location.href,
+        });
+      } catch (err) {
+        console.error('Erro ao compartilhar:', err);
+      }
+    } else {
+      try {
+        await navigator.clipboard.writeText(window.location.href);
+        setShowCopiedToast(true);
+        setTimeout(() => setShowCopiedToast(false), 3000);
+      } catch (err) {
+        console.error('Erro ao copiar link:', err);
+      }
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#0a0a0c] flex flex-col items-center justify-center p-4 md:p-10 relative overflow-hidden font-sans text-white">
       {/* Background Gradients */}
@@ -95,8 +122,24 @@ export default function App() {
           <div className="text-[32px] font-black tracking-tight flex items-center gap-2.5">
             RADIO<span className="text-[#ff3b30]">520</span>
           </div>
-          <div className="bg-[#ff3b30] px-3 py-1 rounded text-xs font-bold uppercase tracking-widest shadow-[0_0_20px_rgba(255,59,48,0.4)]">
-            Ao Vivo
+          <div className="flex items-center gap-2 md:gap-3">
+            <button 
+              onClick={handleRefresh}
+              className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 text-white/70 hover:text-white transition-all active:scale-95"
+              title="Atualizar"
+            >
+              <RefreshCw className="w-4 h-4 md:w-5 md:h-5" />
+            </button>
+            <button 
+              onClick={handleShare}
+              className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 text-white/70 hover:text-white transition-all active:scale-95"
+              title="Compartilhar"
+            >
+              <Share2 className="w-4 h-4 md:w-5 md:h-5" />
+            </button>
+            <div className="bg-[#ff3b30] px-2 md:px-3 py-1 rounded text-[10px] md:text-xs font-bold uppercase tracking-widest shadow-[0_0_20px_rgba(255,59,48,0.4)] ml-1 md:ml-2">
+              Ao Vivo
+            </div>
           </div>
         </div>
 
@@ -205,6 +248,21 @@ export default function App() {
           onPause={() => setIsPlaying(false)}
           onEnded={() => setIsPlaying(false)}
         />
+
+        {/* Copied Toast */}
+        <AnimatePresence>
+          {showCopiedToast && (
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="fixed top-6 left-1/2 -translate-x-1/2 z-50 bg-[rgba(255,255,255,0.1)] backdrop-blur-md border border-white/20 text-white px-4 py-2 rounded-full shadow-lg text-sm font-bold flex items-center gap-2"
+            >
+              <Share2 className="w-4 h-4" />
+              Link copiado!
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* WhatsApp Popup */}
         <AnimatePresence>
