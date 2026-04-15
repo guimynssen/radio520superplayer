@@ -1,22 +1,18 @@
 export const headlines = [
   {
-    title: 'Simeone avisa: Atlético está a três jogos da glória',
+    title: 'Sporting desafia Arsenal e promete caos em Londres',
     url: 'https://www.radio520.com.br'
   },
   {
-    title: 'Botafogo à venda: crise derruba império de Textor',
+    title: 'Fonseca domina Rinderknech e avança com autoridade',
     url: 'https://www.radio520.com.br'
   },
   {
-    title: 'Aston Martin afunda na F1 e vive pesadelo técnico',
+    title: 'Vasco perde em casa e sofre virada dolorosa',
     url: 'https://www.radio520.com.br'
   },
   {
-    title: 'Fonseca avança e confirma fase no circuito',
-    url: 'https://www.radio520.com.br'
-  },
-  {
-    title: 'FURIA domina e vira candidata no IEM',
+    title: 'Vitality vira sobre G2 e cala favoritos',
     url: 'https://www.radio520.com.br'
   }
 ];
