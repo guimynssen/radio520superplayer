@@ -91,12 +91,12 @@ export default function App() {
         </div>
 
         {/* Main Container */}
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-[30px] flex-1">
+        <div className="flex-1 flex justify-center items-center w-full pb-10">
           
           {/* Player Card */}
-          <div className="bg-[rgba(255,255,255,0.08)] backdrop-blur-[25px] border border-[rgba(255,255,255,0.12)] rounded-[32px] p-6 md:p-10 flex flex-col justify-center items-center text-center shadow-2xl h-full">
+          <div className="bg-[rgba(255,255,255,0.08)] backdrop-blur-[25px] border border-[rgba(255,255,255,0.12)] rounded-[32px] p-6 md:p-10 flex flex-col justify-center items-center text-center shadow-2xl w-full max-w-[480px]">
             
-            <div className="w-[280px] h-[280px] rounded-[24px] mb-[30px] shadow-[0_30px_60px_rgba(0,0,0,0.5)] flex items-center justify-center border border-white/10 overflow-hidden relative group">
+            <div className="w-[240px] h-[240px] md:w-[280px] md:h-[280px] rounded-[24px] mb-[30px] shadow-[0_30px_60px_rgba(0,0,0,0.5)] flex items-center justify-center border border-white/10 overflow-hidden relative group">
               <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500 z-10"></div>
               <img 
                 src="https://public-rf-upload.minhawebradio.net/249695/ad/b30edc6bd71dc1fc388825269de83aca.jpeg" 
@@ -173,38 +173,14 @@ export default function App() {
               />
             </div>
 
-          </div>
+            {/* Social Links */}
+            <div className="flex items-center gap-4 mt-8 pt-8 border-t border-white/10 w-full justify-center">
+              <SocialIconButton href="https://wa.me/5511988277967" icon={<WhatsappIcon className="w-5 h-5" />} colorClass="hover:text-[#25D366] hover:bg-[#25D366]/10" />
+              <SocialIconButton href="https://instagram.com/radio520oficial" icon={<Instagram className="w-5 h-5" />} colorClass="hover:text-[#E1306C] hover:bg-[#E1306C]/10" />
+              <SocialIconButton href="https://youtube.com/@radio520real?si=F1u1CbUDmjePt9Pn" icon={<Youtube className="w-5 h-5" />} colorClass="hover:text-[#FF0000] hover:bg-[#FF0000]/10" />
+              <SocialIconButton href="https://x.com/radio_520" icon={<XIcon className="w-4 h-4" />} colorClass="hover:text-white hover:bg-white/10" />
+            </div>
 
-          {/* Social Hub */}
-          <div className="flex flex-col gap-4">
-            <SocialCard 
-              href="https://wa.me/5511988277967" 
-              icon={<WhatsappIcon className="w-6 h-6" />} 
-              title="WhatsApp" 
-              description="(11) 98827-7967" 
-              iconColorClass="text-[#25D366]" 
-            />
-            <SocialCard 
-              href="https://instagram.com/radio520oficial" 
-              icon={<Instagram className="w-6 h-6" />} 
-              title="Instagram" 
-              description="@radio520oficial" 
-              iconColorClass="text-[#E1306C]" 
-            />
-            <SocialCard 
-              href="https://youtube.com/@radio520real?si=F1u1CbUDmjePt9Pn" 
-              icon={<Youtube className="w-6 h-6" />} 
-              title="YouTube" 
-              description="@radio520real" 
-              iconColorClass="text-[#FF0000]" 
-            />
-            <SocialCard 
-              href="https://x.com/radio_520" 
-              icon={<XIcon className="w-5 h-5" />} 
-              title="X / Twitter" 
-              description="@radio_520" 
-              iconColorClass="text-white" 
-            />
           </div>
         </div>
 
@@ -221,21 +197,15 @@ export default function App() {
   );
 }
 
-function SocialCard({ href, icon, title, description, iconColorClass }: { href: string, icon: React.ReactNode, title: string, description: string, iconColorClass: string }) {
+function SocialIconButton({ href, icon, colorClass }: { href: string, icon: React.ReactNode, colorClass: string }) {
   return (
     <a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="bg-[rgba(255,255,255,0.08)] backdrop-blur-[20px] border border-[rgba(255,255,255,0.12)] rounded-[20px] p-5 flex items-center gap-[15px] transition-transform hover:scale-[1.02] hover:bg-[rgba(255,255,255,0.12)]"
+      className={`w-12 h-12 rounded-full bg-white/5 flex items-center justify-center text-white/60 transition-all duration-300 ${colorClass}`}
     >
-      <div className={`w-[44px] h-[44px] rounded-[12px] flex items-center justify-center bg-[rgba(255,255,255,0.05)] ${iconColorClass}`}>
-        {icon}
-      </div>
-      <div className="text-left">
-        <h4 className="text-[15px] mb-0.5 font-bold text-white leading-tight">{title}</h4>
-        <p className="text-[13px] text-[rgba(255,255,255,0.6)] leading-tight">{description}</p>
-      </div>
+      {icon}
     </a>
   );
 }
