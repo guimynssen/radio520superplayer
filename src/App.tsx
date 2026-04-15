@@ -4,8 +4,8 @@
  */
 
 import React, { useState, useRef, useEffect } from 'react';
-import { Play, Pause, Volume2, VolumeX, Instagram, Youtube, SkipBack, SkipForward } from 'lucide-react';
-import { motion } from 'motion/react';
+import { Play, Pause, Volume2, VolumeX, Instagram, Youtube, SkipBack, SkipForward, X } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
 import { HeadlinesTicker } from './components/HeadlinesTicker';
 import { getProgramInfo } from './data/schedule';
 
@@ -31,6 +31,15 @@ export default function App() {
   const streamUrl = "https://servidor40.brlogic.com:7054/live"; 
 
   const [programInfo, setProgramInfo] = useState(getProgramInfo());
+  const [showWhatsappPopup, setShowWhatsappPopup] = useState(false);
+
+  useEffect(() => {
+    // Show WhatsApp popup after 30 seconds
+    const timer = setTimeout(() => {
+      setShowWhatsappPopup(true);
+    }, 30000);
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     // Update current program every minute
@@ -82,7 +91,7 @@ export default function App() {
 
       <div className="relative z-10 w-full max-w-[1024px] flex flex-col h-full">
         {/* Header */}
-        <div className="flex justify-between items-center mb-10">
+        <div className="flex justify-between items-center mb-6">
           <div className="text-[32px] font-black tracking-tight flex items-center gap-2.5">
             RADIO<span className="text-[#ff3b30]">520</span>
           </div>
@@ -196,6 +205,41 @@ export default function App() {
           onPause={() => setIsPlaying(false)}
           onEnded={() => setIsPlaying(false)}
         />
+
+        {/* WhatsApp Popup */}
+        <AnimatePresence>
+          {showWhatsappPopup && (
+            <motion.div
+              initial={{ opacity: 0, y: 50, scale: 0.9 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 20, scale: 0.9 }}
+              className="fixed bottom-6 right-6 z-50 bg-[#25D366] text-white p-4 rounded-2xl shadow-2xl flex items-start gap-4 max-w-[320px]"
+            >
+              <div className="flex-1">
+                <h4 className="font-bold text-[15px] leading-tight mb-1">Mande seu recado! 🎵</h4>
+                <p className="text-[13px] text-white/90 leading-tight mb-3">
+                  Peça sua música ou mande um salve ao vivo pelo nosso WhatsApp.
+                </p>
+                <a
+                  href="https://wa.me/5511988277967"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center bg-white text-[#25D366] px-4 py-2 rounded-full text-[13px] font-bold hover:bg-white/90 transition-colors"
+                  onClick={() => setShowWhatsappPopup(false)}
+                >
+                  <WhatsappIcon className="w-4 h-4 mr-2" />
+                  Enviar Mensagem
+                </a>
+              </div>
+              <button
+                onClick={() => setShowWhatsappPopup(false)}
+                className="text-white/80 hover:text-white transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );
