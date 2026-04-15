@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useRef, useEffect } from 'react';
-import { Play, Pause, Volume2, VolumeX, Instagram, Youtube, SkipBack, SkipForward, X, Share2, RefreshCw } from 'lucide-react';
+import { Play, Pause, Volume2, VolumeX, Instagram, Youtube, SkipBack, SkipForward, X, Share2, RefreshCw, Download } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { HeadlinesTicker } from './components/HeadlinesTicker';
 import { getProgramInfo } from './data/schedule';
@@ -33,6 +33,7 @@ export default function App() {
   const [programInfo, setProgramInfo] = useState(getProgramInfo());
   const [showWhatsappPopup, setShowWhatsappPopup] = useState(false);
   const [showCopiedToast, setShowCopiedToast] = useState(false);
+  const [showDownloadModal, setShowDownloadModal] = useState(false);
 
   useEffect(() => {
     // Show WhatsApp popup after 30 seconds
@@ -123,6 +124,13 @@ export default function App() {
             RADIO<span className="text-[#ff3b30]">520</span>
           </div>
           <div className="flex items-center gap-2 md:gap-3">
+            <button 
+              onClick={() => setShowDownloadModal(true)}
+              className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 text-white/70 hover:text-white transition-all active:scale-95"
+              title="Instalar App"
+            >
+              <Download className="w-4 h-4 md:w-5 md:h-5" />
+            </button>
             <button 
               onClick={handleRefresh}
               className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 text-white/70 hover:text-white transition-all active:scale-95"
@@ -261,6 +269,63 @@ export default function App() {
               <Share2 className="w-4 h-4" />
               Link copiado!
             </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Download/Install Modal */}
+        <AnimatePresence>
+          {showDownloadModal && (
+            <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                className="bg-[#1a1a2e] border border-white/10 rounded-[24px] p-6 md:p-8 max-w-[400px] w-full shadow-2xl relative"
+              >
+                <button 
+                  onClick={() => setShowDownloadModal(false)}
+                  className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 text-white/60 hover:text-white transition-colors"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+                
+                <div className="w-12 h-12 rounded-full bg-[#ff3b30]/20 text-[#ff3b30] flex items-center justify-center mb-5">
+                  <Download className="w-6 h-6" />
+                </div>
+                
+                <h3 className="text-xl font-bold text-white mb-2">Instale o App da Rádio</h3>
+                <p className="text-white/60 text-sm mb-6">
+                  Leve a Rádio 520 com você! Adicione nosso aplicativo à tela inicial do seu celular para ouvir com apenas um toque.
+                </p>
+                
+                <div className="space-y-4">
+                  <div className="bg-white/5 border border-white/5 rounded-xl p-4">
+                    <h4 className="font-bold text-white text-sm flex items-center gap-2 mb-2">
+                      <span>🍎</span> iPhone (iOS)
+                    </h4>
+                    <p className="text-white/60 text-xs leading-relaxed">
+                      No Safari, toque no ícone de <strong>Compartilhar</strong> (quadrado com seta para cima) na barra inferior e selecione <strong>"Adicionar à Tela de Início"</strong>.
+                    </p>
+                  </div>
+                  
+                  <div className="bg-white/5 border border-white/5 rounded-xl p-4">
+                    <h4 className="font-bold text-white text-sm flex items-center gap-2 mb-2">
+                      <span>🤖</span> Android
+                    </h4>
+                    <p className="text-white/60 text-xs leading-relaxed">
+                      No Chrome, toque no <strong>Menu</strong> (três pontinhos) no canto superior direito e selecione <strong>"Adicionar à Tela Inicial"</strong> ou "Instalar aplicativo".
+                    </p>
+                  </div>
+                </div>
+                
+                <button 
+                  onClick={() => setShowDownloadModal(false)}
+                  className="w-full mt-6 bg-white/10 hover:bg-white/20 text-white font-bold py-3 rounded-xl transition-colors text-sm"
+                >
+                  Entendi
+                </button>
+              </motion.div>
+            </div>
           )}
         </AnimatePresence>
 
