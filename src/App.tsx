@@ -6,6 +6,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Play, Pause, Volume2, VolumeX, Instagram, Youtube, SkipBack, SkipForward } from 'lucide-react';
 import { motion } from 'motion/react';
+import { HeadlinesTicker } from './components/HeadlinesTicker';
 import { getProgramInfo } from './data/schedule';
 
 const WhatsappIcon = ({ className }: { className?: string }) => (
@@ -106,10 +107,13 @@ export default function App() {
               />
             </div>
 
-            <div className="mb-[30px]">
+            <div className="mb-[20px]">
                 <h1 className="text-[28px] md:text-[36px] mb-2 font-bold leading-tight">{programInfo.current}</h1>
                 <p className="text-[rgba(255,255,255,0.6)] text-[16px] md:text-[18px]">A seguir: {programInfo.next}</p>
             </div>
+
+            {/* Ticker de Notícias */}
+            <HeadlinesTicker />
 
             {/* Controls */}
             <div className="flex items-center gap-8 mb-[30px]">
