@@ -26,6 +26,7 @@ export default function App() {
   const [volume, setVolume] = useState(1);
   const [isMuted, setIsMuted] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
+  const userPaused = useRef(false);
 
   // Placeholder stream URL - can be replaced with the actual Radio520 stream URL
   const streamUrl = "https://servidor40.brlogic.com:7054/live"; 
@@ -33,6 +34,7 @@ export default function App() {
   const [programInfo, setProgramInfo] = useState(getProgramInfo());
   const [showWhatsappPopup, setShowWhatsappPopup] = useState(false);
   const [showCopiedToast, setShowCopiedToast] = useState(false);
+  const [showRefreshToast, setShowRefreshToast] = useState(false);
   const [showDownloadModal, setShowDownloadModal] = useState(false);
 
   useEffect(() => {
@@ -44,21 +46,44 @@ export default function App() {
   }, []);
 
   useEffect(() => {
+    const handleFirstInteraction = () => {
+      if (audioRef.current && audioRef.current.paused && !userPaused.current) {
+        audioRef.current.play().then(() => {
+          setIsPlaying(true);
+        }).catch(e => console.error("Playback failed on interaction:", e));
+      }
+      
+      document.removeEventListener('touchstart', handleFirstInteraction);
+      document.removeEventListener('click', handleFirstInteraction);
+    };
+
+    document.addEventListener('touchstart', handleFirstInteraction);
+    document.addEventListener('click', handleFirstInteraction);
+
     // Attempt to autoplay on mount
     if (audioRef.current) {
-      audioRef.current.play().catch(e => {
+      audioRef.current.play().then(() => {
+        setIsPlaying(true);
+      }).catch(e => {
         console.log("Autoplay blocked by browser policy:", e);
         setIsPlaying(false);
       });
     }
+
+    return () => {
+      document.removeEventListener('touchstart', handleFirstInteraction);
+      document.removeEventListener('click', handleFirstInteraction);
+    };
   }, []);
 
   useEffect(() => {
-    // Auto-refresh the page every 2 hours (7200000 ms)
-    const refreshTimer = setTimeout(() => {
-      window.location.reload();
+    // Auto-refresh the programming data every 2 hours (7200000 ms) without interrupting audio
+    const refreshTimer = setInterval(() => {
+      setProgramInfo(getProgramInfo());
+      setShowRefreshToast(true);
+      setTimeout(() => setShowRefreshToast(false), 3000);
     }, 7200000);
-    return () => clearTimeout(refreshTimer);
+    return () => clearInterval(refreshTimer);
   }, []);
 
   useEffect(() => {
@@ -72,8 +97,10 @@ export default function App() {
   const togglePlay = () => {
     if (audioRef.current) {
       if (isPlaying) {
+        userPaused.current = true;
         audioRef.current.pause();
       } else {
+        userPaused.current = false;
         audioRef.current.play().catch(e => console.error("Audio playback failed:", e));
       }
       setIsPlaying(!isPlaying);
@@ -99,7 +126,10 @@ export default function App() {
   };
 
   const handleRefresh = () => {
-    window.location.reload();
+    // "Soft" refresh: updates local schedule data without interrupting audio
+    setProgramInfo(getProgramInfo());
+    setShowRefreshToast(true);
+    setTimeout(() => setShowRefreshToast(false), 3000);
   };
 
   const handleShare = async () => {
@@ -276,7 +306,7 @@ export default function App() {
           onEnded={() => setIsPlaying(false)}
         />
 
-        {/* Copied Toast */}
+        {/* Copied/Refresh Toasts */}
         <AnimatePresence>
           {showCopiedToast && (
             <motion.div
@@ -287,6 +317,17 @@ export default function App() {
             >
               <Share2 className="w-4 h-4" />
               Link copiado!
+            </motion.div>
+          )}
+          {showRefreshToast && (
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="fixed top-6 left-1/2 -translate-x-1/2 z-50 bg-[rgba(255,255,255,0.1)] backdrop-blur-md border border-white/20 text-white px-4 py-2 rounded-full shadow-lg text-sm font-bold flex items-center gap-2"
+            >
+              <RefreshCw className="w-4 h-4 animate-spin" />
+              Atualizado!
             </motion.div>
           )}
         </AnimatePresence>
