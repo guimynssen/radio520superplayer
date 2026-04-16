@@ -32,6 +32,7 @@ export default function App() {
   const streamUrl = "https://servidor40.brlogic.com:7054/live"; 
 
   const [programInfo, setProgramInfo] = useState(getProgramInfo());
+  const [refreshCount, setRefreshCount] = useState(0);
   const [showWhatsappPopup, setShowWhatsappPopup] = useState(false);
   const [showCopiedToast, setShowCopiedToast] = useState(false);
   const [showRefreshToast, setShowRefreshToast] = useState(false);
@@ -128,6 +129,7 @@ export default function App() {
   const handleRefresh = () => {
     // "Soft" refresh: updates local schedule data without interrupting audio
     setProgramInfo(getProgramInfo());
+    setRefreshCount(prev => prev + 1);
     setShowRefreshToast(true);
     setTimeout(() => setShowRefreshToast(false), 3000);
   };
@@ -221,7 +223,7 @@ export default function App() {
             </div>
 
             {/* Ticker de Notícias */}
-            <HeadlinesTicker />
+            <HeadlinesTicker refreshTrigger={refreshCount} />
 
             {/* Controls */}
             <div className="flex items-center gap-8 mb-[30px]">

@@ -2,9 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { headlines as initialHeadlines } from '../data/headlines';
 
-export function HeadlinesTicker() {
+export function HeadlinesTicker({ refreshTrigger }: { refreshTrigger?: number }) {
   const [headlines, setHeadlines] = useState(initialHeadlines);
   const [showLogo, setShowLogo] = useState(false);
+
+  useEffect(() => {
+    // Force ticker to use the latest imported headlines.
+    // In a prod app, this might be a fresh API fetch. 
+    // Here we reset the imported array just in case it was updated via HMR.
+    setHeadlines(initialHeadlines);
+  }, [refreshTrigger]);
 
   useEffect(() => {
     // A cada 30 segundos, exibe a logo por 5 segundos
