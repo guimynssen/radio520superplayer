@@ -44,6 +44,24 @@ export default function App() {
   }, []);
 
   useEffect(() => {
+    // Attempt to autoplay on mount
+    if (audioRef.current) {
+      audioRef.current.play().catch(e => {
+        console.log("Autoplay blocked by browser policy:", e);
+        setIsPlaying(false);
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    // Auto-refresh the page every 2 hours (7200000 ms)
+    const refreshTimer = setTimeout(() => {
+      window.location.reload();
+    }, 7200000);
+    return () => clearTimeout(refreshTimer);
+  }, []);
+
+  useEffect(() => {
     // Update current program every minute
     const interval = setInterval(() => {
       setProgramInfo(getProgramInfo());
@@ -252,6 +270,7 @@ export default function App() {
         <audio
           ref={audioRef}
           src={streamUrl}
+          autoPlay
           onPlay={() => setIsPlaying(true)}
           onPause={() => setIsPlaying(false)}
           onEnded={() => setIsPlaying(false)}

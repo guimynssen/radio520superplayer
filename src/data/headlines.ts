@@ -1,18 +1,18 @@
 export const headlines = [
   {
-    title: 'Sporting desafia Arsenal e promete caos em Londres',
+    title: 'Gui Santos decide, Warriors viram e eliminam Clippers',
     url: 'https://www.radio520.com.br'
   },
   {
-    title: 'Fonseca domina Rinderknech e avança com autoridade',
+    title: 'Toledo eliminado: brasileiro cai e Pittar choca Margaret River',
     url: 'https://www.radio520.com.br'
   },
   {
-    title: 'Vasco perde em casa e sofre virada dolorosa',
+    title: 'Fluminense tropeça no Maracanã e se complica na Libertadores',
     url: 'https://www.radio520.com.br'
   },
   {
-    title: 'Vitality vira sobre G2 e cala favoritos',
+    title: 'Bayern enlouquece jogo épico e derruba Real no fim',
     url: 'https://www.radio520.com.br'
   }
 ];
