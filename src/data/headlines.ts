@@ -1,18 +1,18 @@
 export const headlines = [
   {
-    title: 'Ekitiké e o silêncio cruel de uma lesão devastadora',
+    title: 'Yago Dora explode após polêmica e recusa rival',
     url: 'https://www.radio520.com.br'
   },
   {
-    title: 'FIFA revela cidades da Copa Feminina 2027 no Brasil',
+    title: 'Atlético vence no fim e evita vexame na Sul-Americana',
     url: 'https://www.radio520.com.br'
   },
   {
-    title: 'Messi compra clube e mira acesso na Espanha',
+    title: 'Forest vence Porto após expulsão relâmpago e choca Europa',
     url: 'https://www.radio520.com.br'
   },
   {
-    title: 'Gui Santos decide, Warriors viram e eliminam Clippers',
+    title: 'Flamengo joga em rotação máxima e liquida Medellín',
     url: 'https://www.radio520.com.br'
   }
 ];
