@@ -1,5 +1,9 @@
 export const headlines = [
   {
+    title: 'Morre Oscar Schmidt, lenda eterna do basquete mundial',
+    url: 'https://www.radio520.com.br'
+  },
+  {
     title: 'Hovland renasce? Bastidores agitam RBC Heritage',
     url: 'https://www.radio520.com.br'
   },
@@ -9,10 +13,6 @@ export const headlines = [
   },
   {
     title: 'Fonseca sucumbe a Shelton e repete roteiro contra top',
-    url: 'https://www.radio520.com.br'
-  },
-  {
-    title: 'Mercedes revela falha crítica e corre contra tempo na largada',
     url: 'https://www.radio520.com.br'
   }
 ];
