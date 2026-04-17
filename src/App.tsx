@@ -36,8 +36,8 @@ export default function App() {
     "https://public-rf-upload.minhawebradio.net/249695/ad/5585acfa426370ca3d4fda0479bfae28.png"  // Nova 2
   ];
 
-  // Placeholder stream URL - can be replaced with the actual Radio520 stream URL
-  const streamUrl = "https://servidor40.brlogic.com:7054/live"; 
+  const streamBaseUrl = "https://servidor40.brlogic.com:7054/live"; 
+  const [streamUrl, setStreamUrl] = useState(streamBaseUrl);
 
   const [programInfo, setProgramInfo] = useState(getProgramInfo());
   const [refreshCount, setRefreshCount] = useState(0);
@@ -98,7 +98,14 @@ export default function App() {
   useEffect(() => {
     // Update current program every minute
     const interval = setInterval(() => {
-      setProgramInfo(getProgramInfo());
+      setProgramInfo(prev => {
+        const nextInfo = getProgramInfo();
+        // Prevent generic state updates from breaking refs
+        if (prev.current === nextInfo.current && prev.next === nextInfo.next) {
+          return prev;
+        }
+        return nextInfo;
+      });
     }, 60000);
     return () => clearInterval(interval);
   }, []);
@@ -110,6 +117,22 @@ export default function App() {
     }, 6000);
     return () => clearInterval(imageInterval);
   }, [carouselImages.length]);
+
+  const handleAudioError = () => {
+    console.error("Audio connection lost or stalled. Attempting to reconnect...");
+    // Append timestamp securely to bypass aggressive caching on dropped streams
+    const separator = streamBaseUrl.includes('?') ? '&' : '?';
+    setStreamUrl(`${streamBaseUrl}${separator}cb=${Date.now()}`);
+    
+    // Automatically try to resume playing if it was playing
+    if (isPlaying) {
+      setTimeout(() => {
+        if (audioRef.current) {
+          audioRef.current.play().catch(e => console.error("Reconnection playback failed", e));
+        }
+      }, 1500); // Give the stream a moment to buffer
+    }
+  };
 
   const togglePlay = () => {
     if (audioRef.current) {
@@ -333,6 +356,8 @@ export default function App() {
           onPlay={() => setIsPlaying(true)}
           onPause={() => setIsPlaying(false)}
           onEnded={() => setIsPlaying(false)}
+          onError={handleAudioError}
+          onStalled={handleAudioError}
         />
 
         {/* Copied/Refresh Toasts */}
