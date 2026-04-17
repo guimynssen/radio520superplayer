@@ -25,8 +25,16 @@ export default function App() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(1);
   const [isMuted, setIsMuted] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const audioRef = useRef<HTMLAudioElement>(null);
   const userPaused = useRef(false);
+
+  // Carousel images
+  const carouselImages = [
+    "https://public-rf-upload.minhawebradio.net/249695/ad/b30edc6bd71dc1fc388825269de83aca.jpeg", // Logo Original
+    "https://public-rf-upload.minhawebradio.net/249695/ad/a5c65ae7f0a45d8f5e0c8021d95c3c10.jpeg", // Nova 1
+    "https://public-rf-upload.minhawebradio.net/249695/ad/5585acfa426370ca3d4fda0479bfae28.png"  // Nova 2
+  ];
 
   // Placeholder stream URL - can be replaced with the actual Radio520 stream URL
   const streamUrl = "https://servidor40.brlogic.com:7054/live"; 
@@ -94,6 +102,14 @@ export default function App() {
     }, 60000);
     return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    // Rotate carousel image every 6 seconds
+    const imageInterval = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % carouselImages.length);
+    }, 6000);
+    return () => clearInterval(imageInterval);
+  }, [carouselImages.length]);
 
   const togglePlay = () => {
     if (audioRef.current) {
@@ -208,13 +224,24 @@ export default function App() {
           <div className="bg-[rgba(255,255,255,0.08)] backdrop-blur-[25px] border border-[rgba(255,255,255,0.12)] rounded-[32px] p-6 md:p-10 flex flex-col justify-center items-center text-center shadow-2xl w-full max-w-[480px]">
             
             <div className="w-[240px] h-[240px] md:w-[280px] md:h-[280px] rounded-[24px] mb-[30px] shadow-[0_30px_60px_rgba(0,0,0,0.5)] flex items-center justify-center border border-white/10 overflow-hidden relative group">
-              <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500 z-10"></div>
-              <img 
-                src="https://public-rf-upload.minhawebradio.net/249695/ad/b30edc6bd71dc1fc388825269de83aca.jpeg" 
-                alt="Radio520 Logo" 
-                className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
-                referrerPolicy="no-referrer"
-              />
+              <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500 z-20"></div>
+              <AnimatePresence initial={false}>
+                <motion.div
+                  key={currentImageIndex}
+                  initial={{ x: '100%' }}
+                  animate={{ x: 0 }}
+                  exit={{ x: '-100%' }}
+                  transition={{ duration: 0.8, ease: "easeInOut" }}
+                  className="absolute inset-0 w-full h-full"
+                >
+                  <img 
+                    src={carouselImages[currentImageIndex]} 
+                    alt="Rádio 520 Cover" 
+                    className="w-full h-full object-cover transform scale-[1.01] group-hover:scale-105 transition-transform duration-700"
+                    referrerPolicy="no-referrer"
+                  />
+                </motion.div>
+              </AnimatePresence>
             </div>
 
             <div className="mb-[20px]">
