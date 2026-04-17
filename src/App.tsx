@@ -45,6 +45,7 @@ export default function App() {
   const [showCopiedToast, setShowCopiedToast] = useState(false);
   const [showRefreshToast, setShowRefreshToast] = useState(false);
   const [showDownloadModal, setShowDownloadModal] = useState(false);
+  const [autoplayBlocked, setAutoplayBlocked] = useState(false);
 
   useEffect(() => {
     // Show WhatsApp popup after 30 seconds
@@ -73,9 +74,11 @@ export default function App() {
     if (audioRef.current) {
       audioRef.current.play().then(() => {
         setIsPlaying(true);
+        setAutoplayBlocked(false);
       }).catch(e => {
         console.log("Autoplay blocked by browser policy:", e);
         setIsPlaying(false);
+        setAutoplayBlocked(true);
       });
     }
 
@@ -144,6 +147,7 @@ export default function App() {
         audioRef.current.play().catch(e => console.error("Audio playback failed:", e));
       }
       setIsPlaying(!isPlaying);
+      setAutoplayBlocked(false);
     }
   };
 
@@ -283,12 +287,17 @@ export default function App() {
               
               <button 
                 onClick={togglePlay}
-                className="relative w-[88px] h-[88px] flex items-center justify-center group"
+                className={`relative flex items-center justify-center group ${autoplayBlocked ? 'w-auto px-6 h-12 rounded-full' : 'w-[88px] h-[88px] rounded-full'}`}
               >
-                <div className="absolute inset-0 bg-gradient-to-tr from-[#ff3b30] to-[#ff8b30] rounded-full opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300 shadow-[0_0_30px_rgba(255,59,48,0.4)] group-hover:shadow-[0_0_40px_rgba(255,59,48,0.6)]"></div>
-                <div className="absolute inset-1 bg-black rounded-full flex items-center justify-center z-10 group-hover:scale-[1.02] transition-transform duration-300">
+                <div className={`absolute inset-0 bg-gradient-to-tr from-[#ff3b30] to-[#ff8b30] opacity-80 group-hover:opacity-100 transition-all duration-300 shadow-[0_0_30px_rgba(255,59,48,0.4)] group-hover:shadow-[0_0_40px_rgba(255,59,48,0.6)] group-hover:scale-105 ${autoplayBlocked ? 'rounded-full' : 'rounded-full'}`}></div>
+                <div className={`absolute inset-1 bg-black flex items-center justify-center z-10 group-hover:scale-[1.02] transition-transform duration-300 ${autoplayBlocked ? 'rounded-[100px] px-5 gap-2' : 'rounded-full'}`}>
                   {isPlaying ? (
                     <Pause className="w-8 h-8 text-white fill-current" />
+                  ) : autoplayBlocked ? (
+                    <>
+                      <Play className="w-5 h-5 text-white fill-current" />
+                      <span className="text-white font-bold text-sm tracking-wide">ATIVAR SOM</span>
+                    </>
                   ) : (
                     <Play className="w-8 h-8 text-white fill-current ml-1" />
                   )}
@@ -352,8 +361,10 @@ export default function App() {
         <audio
           ref={audioRef}
           src={streamUrl}
-          autoPlay
-          onPlay={() => setIsPlaying(true)}
+          onPlay={() => {
+            setIsPlaying(true);
+            setAutoplayBlocked(false);
+          }}
           onPause={() => setIsPlaying(false)}
           onEnded={() => setIsPlaying(false)}
           onError={handleAudioError}

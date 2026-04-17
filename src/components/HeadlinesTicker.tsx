@@ -1,43 +1,41 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 
-export function HeadlinesTicker({ refreshTrigger }: { refreshTrigger?: number }) {
+export const HeadlinesTicker = React.memo(({ refreshTrigger }: { refreshTrigger?: number }) => {
   const [headlines, setHeadlines] = useState<{title: string, url: string}[]>([]);
   const [showLogo, setShowLogo] = useState(false);
 
-  const fetchHeadlines = async () => {
+  const fetchHeadlines = useCallback(async () => {
     try {
-      // Use dynamic import to bypass module caching and get the freshest data
-      // Add a timestamp query to force a cache bust in the browser/bundler
-      const module = await import(`../data/headlines.ts?t=${Date.now()}`);
-      if (module && module.headlines) {
-        setHeadlines(module.headlines);
-      }
+      const response = await fetch(`/headlines.json?ts=${Date.now()}`, { cache: "no-store" });
+      if (!response.ok) throw new Error("Network response was not ok");
+      const data = await response.json();
+      setHeadlines(data);
     } catch (error) {
-      console.error("Failed to refresh headlines:", error);
-      // Fallback mechanism if dynamic import fails during fast refresh
-      import('../data/headlines').then(m => setHeadlines(m.headlines || []));
+      console.error("Failed to fetch headlines:", error);
     }
-  };
+  }, []);
 
   useEffect(() => {
     fetchHeadlines();
-  }, [refreshTrigger]);
+  }, [fetchHeadlines, refreshTrigger]);
 
   useEffect(() => {
-    // A cada 30 segundos, exibe a logo por 5 segundos
-    const interval = setInterval(() => {
+    const fetchInterval = setInterval(() => {
+      fetchHeadlines();
+    }, 120000); // 2 minutos
+
+    const logoInterval = setInterval(() => {
       setShowLogo(true);
-      setTimeout(() => {
-        setShowLogo(false);
-      }, 5000);
+      setTimeout(() => setShowLogo(false), 5000);
     }, 30000);
 
-    return () => clearInterval(interval);
-  }, []);
+    return () => {
+      clearInterval(fetchInterval);
+      clearInterval(logoInterval);
+    };
+  }, [fetchHeadlines]);
 
-  // Duplicamos o array para criar o efeito de loop infinito contínuo
-  // If headlines is empty, ensure we don't break the layout
   const tickerItems = headlines.length > 0 ? [...headlines, ...headlines] : [];
 
   return (
@@ -83,4 +81,4 @@ export function HeadlinesTicker({ refreshTrigger }: { refreshTrigger?: number })
       </div>
     </div>
   );
-}
+});
