@@ -1,16 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { headlines as initialHeadlines } from '../data/headlines';
 
 export function HeadlinesTicker({ refreshTrigger }: { refreshTrigger?: number }) {
-  const [headlines, setHeadlines] = useState(initialHeadlines);
+  const [headlines, setHeadlines] = useState<{title: string, url: string}[]>([]);
   const [showLogo, setShowLogo] = useState(false);
 
+  const fetchHeadlines = async () => {
+    try {
+      // Use dynamic import to bypass module caching and get the freshest data
+      // Add a timestamp query to force a cache bust in the browser/bundler
+      const module = await import(`../data/headlines.ts?t=${Date.now()}`);
+      if (module && module.headlines) {
+        setHeadlines(module.headlines);
+      }
+    } catch (error) {
+      console.error("Failed to refresh headlines:", error);
+      // Fallback mechanism if dynamic import fails during fast refresh
+      import('../data/headlines').then(m => setHeadlines(m.headlines || []));
+    }
+  };
+
   useEffect(() => {
-    // Force ticker to use the latest imported headlines.
-    // In a prod app, this might be a fresh API fetch. 
-    // Here we reset the imported array just in case it was updated via HMR.
-    setHeadlines(initialHeadlines);
+    fetchHeadlines();
   }, [refreshTrigger]);
 
   useEffect(() => {
@@ -26,7 +37,8 @@ export function HeadlinesTicker({ refreshTrigger }: { refreshTrigger?: number })
   }, []);
 
   // Duplicamos o array para criar o efeito de loop infinito contínuo
-  const tickerItems = [...headlines, ...headlines];
+  // If headlines is empty, ensure we don't break the layout
+  const tickerItems = headlines.length > 0 ? [...headlines, ...headlines] : [];
 
   return (
     <div className="w-full overflow-hidden bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)] rounded-xl py-2.5 mb-[30px] relative flex items-center min-h-[42px]">
