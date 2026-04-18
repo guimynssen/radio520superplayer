@@ -63,20 +63,6 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    const handleFirstInteraction = () => {
-      if (audioRef.current && audioRef.current.paused && !userPaused.current) {
-        audioRef.current.play().then(() => {
-          setIsPlaying(true);
-        }).catch(e => console.error("Playback failed on interaction:", e));
-      }
-      
-      document.removeEventListener('touchstart', handleFirstInteraction);
-      document.removeEventListener('click', handleFirstInteraction);
-    };
-
-    document.addEventListener('touchstart', handleFirstInteraction);
-    document.addEventListener('click', handleFirstInteraction);
-
     // Attempt to autoplay on mount
     if (audioRef.current) {
       setIsLoadingAudio(true);
@@ -93,11 +79,6 @@ export default function App() {
     } else {
       setIsLoadingAudio(false);
     }
-
-    return () => {
-      document.removeEventListener('touchstart', handleFirstInteraction);
-      document.removeEventListener('click', handleFirstInteraction);
-    };
   }, []);
 
   useEffect(() => {
