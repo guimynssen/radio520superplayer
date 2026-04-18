@@ -29,14 +29,12 @@
 }
 
 @keyframes ticker {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
 }
 
 .animate-ticker {
   animation: ticker 35s linear infinite;
+  will-change: transform;
+  transform: translateZ(0);
 }
