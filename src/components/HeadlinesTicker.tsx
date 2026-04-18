@@ -1,9 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
 
 export const HeadlinesTicker = React.memo(({ refreshTrigger }: { refreshTrigger?: number }) => {
   const [headlines, setHeadlines] = useState<{title: string, url: string}[]>([]);
-  const [showLogo, setShowLogo] = useState(false);
 
   const fetchHeadlines = useCallback(async () => {
     try {
@@ -25,59 +23,50 @@ export const HeadlinesTicker = React.memo(({ refreshTrigger }: { refreshTrigger?
       fetchHeadlines();
     }, 120000); // 2 minutos
 
-    const logoInterval = setInterval(() => {
-      setShowLogo(true);
-      setTimeout(() => setShowLogo(false), 5000);
-    }, 30000);
-
-    return () => {
-      clearInterval(fetchInterval);
-      clearInterval(logoInterval);
-    };
+    return () => clearInterval(fetchInterval);
   }, [fetchHeadlines]);
 
-  const tickerItems = headlines.length > 0 ? [...headlines, ...headlines] : [];
+  const renderContent = () => headlines.map((item, index) => (
+    <div key={index} className="flex items-center whitespace-nowrap px-6">
+      <a 
+        href={item.url} 
+        target="_blank" 
+        rel="noopener noreferrer"
+        className="text-[13px] md:text-[14px] text-white/80 hover:text-[#ff3b30] transition-colors cursor-pointer font-medium"
+      >
+        {item.title}
+      </a>
+      <span className="text-[#ff3b30] text-[10px] opacity-60 ml-6">•</span>
+    </div>
+  ));
 
   return (
     <div className="w-full overflow-hidden bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)] rounded-xl py-2.5 mb-[30px] relative flex items-center min-h-[42px] group">
-      {/* Overlay da Logo */}
-      <AnimatePresence>
-        {showLogo && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.8, ease: "easeInOut" }}
-            className="absolute inset-0 z-20 flex items-center justify-center bg-[#0a0a0c]/95 backdrop-blur-md rounded-xl"
-          >
-            <img 
-              src="https://public-rf-upload.minhawebradio.net/249695/ad/563fe73a5c00172f2eee3693bea4a0de.jpeg" 
-              alt="Logo Rádio 520" 
-              className="h-6 object-contain rounded" 
-            />
-          </motion.div>
-        )}
-      </AnimatePresence>
+      
+      {/* Overlay da Logo Puro CSS - Zero Travamentos na camada React */}
+      <div className="absolute inset-0 z-20 flex items-center justify-center bg-[#0a0a0c]/95 backdrop-blur-md rounded-xl animate-logo-cycle opacity-0 pointer-events-none">
+        <img 
+          src="https://public-rf-upload.minhawebradio.net/249695/ad/563fe73a5c00172f2eee3693bea4a0de.jpeg" 
+          alt="Logo Rádio 520" 
+          className="h-6 object-contain rounded" 
+        />
+      </div>
 
-      {/* Máscaras de gradiente para suavizar as bordas do ticker */}
       <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-[rgba(255,255,255,0.05)] to-transparent z-10 pointer-events-none rounded-l-xl"></div>
       <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-[rgba(255,255,255,0.05)] to-transparent z-10 pointer-events-none rounded-r-xl"></div>
       
-      <div key={refreshTrigger} className="flex w-max animate-ticker md:group-hover:[animation-play-state:paused]">
-        {tickerItems.map((item, index) => (
-          <div key={index} className="flex items-center whitespace-nowrap flex-shrink-0">
-            <a 
-              href={item.url} 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-[13px] md:text-[14px] text-white/80 hover:text-[#ff3b30] transition-colors px-6 cursor-pointer font-medium"
-            >
-              {item.title}
-            </a>
-            {/* Separador discreto */}
-            <span className="text-[#ff3b30] text-[10px] opacity-60">•</span>
-          </div>
-        ))}
+      {/* Container duplo lado-a-lado usando Native CSS Marquee perfeitamente isolado */}
+      <div className="flex w-full" key={refreshTrigger}>
+        {headlines.length > 0 ? (
+          <>
+            <div className="flex shrink-0 min-w-full animate-marquee justify-around items-center">
+              {renderContent()}
+            </div>
+            <div aria-hidden="true" className="flex shrink-0 min-w-full animate-marquee justify-around items-center">
+              {renderContent()}
+            </div>
+          </>
+        ) : null}
       </div>
     </div>
   );

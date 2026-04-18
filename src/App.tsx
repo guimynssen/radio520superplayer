@@ -298,14 +298,14 @@ export default function App() {
               
               <button 
                 onClick={togglePlay}
-                className="relative w-[88px] h-[88px] flex flex-shrink-0 items-center justify-center group"
+                className="relative w-[88px] h-[88px] flex flex-shrink-0 items-center justify-center group cursor-pointer"
               >
                 {/* Efeito de Ping (Onda) ao bloquear Auto-Play para chamar atenção ao invés de usar tooltip */}
                 {autoplayBlocked && !isPlaying && !isLoadingAudio && (
-                  <div className="absolute inset-0 rounded-full border-2 border-[#ff3b30] animate-ping opacity-75"></div>
+                  <div className="absolute inset-0 rounded-full border-2 border-[#ff3b30] animate-ping opacity-75 pointer-events-none"></div>
                 )}
-                <div className="absolute inset-0 bg-gradient-to-tr from-[#ff3b30] to-[#ff8b30] opacity-80 group-hover:opacity-100 transition-all duration-300 shadow-[0_0_30px_rgba(255,59,48,0.4)] group-hover:shadow-[0_0_40px_rgba(255,59,48,0.6)] group-hover:scale-105 rounded-full"></div>
-                <div className="absolute inset-1 bg-black flex items-center justify-center z-10 group-hover:scale-[1.02] transition-transform duration-300 rounded-full">
+                <div className="absolute inset-0 bg-gradient-to-tr from-[#ff3b30] to-[#ff8b30] opacity-80 md:group-hover:opacity-100 transition-all duration-300 md:group-hover:shadow-[0_0_40px_rgba(255,59,48,0.6)] md:group-hover:scale-105 rounded-full pointer-events-none"></div>
+                <div className="absolute inset-1 bg-black flex items-center justify-center z-10 md:group-hover:scale-[1.02] transition-transform duration-300 rounded-full pointer-events-none">
                   {isLoadingAudio ? (
                     <Loader2 className="w-8 h-8 text-white/70 fill-current animate-spin" />
                   ) : isPlaying ? (
