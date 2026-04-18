@@ -36,7 +36,7 @@ export const HeadlinesTicker = React.memo(({ refreshTrigger }: { refreshTrigger?
     };
   }, [fetchHeadlines]);
 
-  const tickerItems = headlines.length > 0 ? [...headlines, ...headlines, ...headlines, ...headlines, ...headlines, ...headlines] : [];
+  const tickerItems = headlines.length > 0 ? [...headlines, ...headlines] : [];
 
   return (
     <div className="w-full overflow-hidden bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)] rounded-xl py-2.5 mb-[30px] relative flex items-center min-h-[42px]">
@@ -65,7 +65,7 @@ export const HeadlinesTicker = React.memo(({ refreshTrigger }: { refreshTrigger?
       
       <div key={refreshTrigger} className="flex w-max animate-ticker md:hover:[animation-play-state:paused]">
         {tickerItems.map((item, index) => (
-          <div key={index} className="flex items-center whitespace-nowrap">
+          <div key={index} className="flex items-center whitespace-nowrap flex-shrink-0">
             <a 
               href={item.url} 
               target="_blank" 
