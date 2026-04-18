@@ -201,11 +201,10 @@ export default function App() {
   };
 
   const handleRefresh = () => {
-    // "Soft" refresh: updates local schedule data without interrupting audio
-    setProgramInfo(getProgramInfo());
-    setRefreshCount(prev => prev + 1);
-    setShowRefreshToast(true);
-    setTimeout(() => setShowRefreshToast(false), 3000);
+    // Hard refresh: Reloads the page to apply any internal structural 
+    // changes made to JS logic, components, or ticker logic.
+    // Note: This will interrupt audio play.
+    window.location.reload();
   };
 
   const handleShare = async () => {
