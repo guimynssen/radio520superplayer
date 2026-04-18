@@ -319,6 +319,10 @@ export default function App() {
                 onClick={togglePlay}
                 className="relative w-[88px] h-[88px] flex flex-shrink-0 items-center justify-center group"
               >
+                {/* Efeito de Ping (Onda) ao bloquear Auto-Play para chamar atenção ao invés de usar tooltip */}
+                {autoplayBlocked && !isPlaying && !isLoadingAudio && (
+                  <div className="absolute inset-0 rounded-full border-2 border-[#ff3b30] animate-ping opacity-75"></div>
+                )}
                 <div className="absolute inset-0 bg-gradient-to-tr from-[#ff3b30] to-[#ff8b30] opacity-80 group-hover:opacity-100 transition-all duration-300 shadow-[0_0_30px_rgba(255,59,48,0.4)] group-hover:shadow-[0_0_40px_rgba(255,59,48,0.6)] group-hover:scale-105 rounded-full"></div>
                 <div className="absolute inset-1 bg-black flex items-center justify-center z-10 group-hover:scale-[1.02] transition-transform duration-300 rounded-full">
                   {isLoadingAudio ? (
@@ -329,13 +333,6 @@ export default function App() {
                     <Play className="w-8 h-8 text-white fill-current ml-1" />
                   )}
                 </div>
-                {/* Floating "ATIVAR SOM" tooltip to avoid layout shift */}
-                {autoplayBlocked && !isPlaying && !isLoadingAudio && (
-                  <div className="absolute -top-10 bg-white text-black text-[11px] font-extrabold px-3 py-1.5 rounded-full shadow-[0_4px_12px_rgba(0,0,0,0.5)] whitespace-nowrap animate-bounce pointer-events-none tracking-widest">
-                    ATIVAR SOM
-                    <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2.5 h-2.5 bg-white rotate-45"></div>
-                  </div>
-                )}
               </button>
 
               <button className="w-12 h-12 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 text-white/70 hover:text-white transition-all active:scale-95">

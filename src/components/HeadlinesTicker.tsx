@@ -63,7 +63,7 @@ export const HeadlinesTicker = React.memo(({ refreshTrigger }: { refreshTrigger?
       <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-[rgba(255,255,255,0.05)] to-transparent z-10 pointer-events-none rounded-l-xl"></div>
       <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-[rgba(255,255,255,0.05)] to-transparent z-10 pointer-events-none rounded-r-xl"></div>
       
-      <div key={refreshTrigger} className="flex w-max animate-ticker hover:[animation-play-state:paused]">
+      <div key={refreshTrigger} className="flex w-max animate-ticker md:hover:[animation-play-state:paused]">
         {tickerItems.map((item, index) => (
           <div key={index} className="flex items-center whitespace-nowrap">
             <a 
