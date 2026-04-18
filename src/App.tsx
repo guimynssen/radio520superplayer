@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useRef, useEffect } from 'react';
-import { Play, Pause, Volume2, VolumeX, Instagram, Youtube, SkipBack, SkipForward, X, Share2, RefreshCw, Download } from 'lucide-react';
+import { Play, Pause, Volume2, VolumeX, Instagram, Youtube, SkipBack, SkipForward, X, Share2, RefreshCw, Download, Loader2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { HeadlinesTicker } from './components/HeadlinesTicker';
 import { getProgramInfo } from './data/schedule';
@@ -46,8 +46,15 @@ export default function App() {
   const [showRefreshToast, setShowRefreshToast] = useState(false);
   const [showDownloadModal, setShowDownloadModal] = useState(false);
   const [autoplayBlocked, setAutoplayBlocked] = useState(false);
+  const [isLoadingAudio, setIsLoadingAudio] = useState(true);
+  const [isIOS, setIsIOS] = useState(false);
 
   useEffect(() => {
+    // Detect OS: iOS restricts volume change via JS
+    const checkIsIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+                       (navigator.userAgent.includes('Mac') && 'ontouchend' in document);
+    setIsIOS(checkIsIOS);
+    
     // Show WhatsApp popup after 30 seconds
     const timer = setTimeout(() => {
       setShowWhatsappPopup(true);
@@ -72,14 +79,19 @@ export default function App() {
 
     // Attempt to autoplay on mount
     if (audioRef.current) {
+      setIsLoadingAudio(true);
       audioRef.current.play().then(() => {
         setIsPlaying(true);
         setAutoplayBlocked(false);
+        setIsLoadingAudio(false);
       }).catch(e => {
         console.log("Autoplay blocked by browser policy:", e);
         setIsPlaying(false);
         setAutoplayBlocked(true);
+        setIsLoadingAudio(false);
       });
+    } else {
+      setIsLoadingAudio(false);
     }
 
     return () => {
@@ -126,14 +138,23 @@ export default function App() {
     // Append timestamp securely to bypass aggressive caching on dropped streams
     const separator = streamBaseUrl.includes('?') ? '&' : '?';
     setStreamUrl(`${streamBaseUrl}${separator}cb=${Date.now()}`);
+    setIsLoadingAudio(true);
     
     // Automatically try to resume playing if it was playing
     if (isPlaying) {
       setTimeout(() => {
         if (audioRef.current) {
-          audioRef.current.play().catch(e => console.error("Reconnection playback failed", e));
+          audioRef.current.play()
+            .then(() => setIsLoadingAudio(false))
+            .catch(e => {
+              console.error("Reconnection playback failed", e);
+              setIsLoadingAudio(false);
+              setIsPlaying(false);
+            });
         }
       }, 1500); // Give the stream a moment to buffer
+    } else {
+      setIsLoadingAudio(false);
     }
   };
 
@@ -142,11 +163,21 @@ export default function App() {
       if (isPlaying) {
         userPaused.current = true;
         audioRef.current.pause();
+        setIsPlaying(false);
       } else {
         userPaused.current = false;
-        audioRef.current.play().catch(e => console.error("Audio playback failed:", e));
+        setIsLoadingAudio(true);
+        audioRef.current.play()
+          .then(() => {
+            setIsPlaying(true);
+            setIsLoadingAudio(false);
+          })
+          .catch(e => {
+            console.error("Audio playback failed:", e);
+            setIsLoadingAudio(false);
+            setIsPlaying(false);
+          });
       }
-      setIsPlaying(!isPlaying);
       setAutoplayBlocked(false);
     }
   };
@@ -287,21 +318,25 @@ export default function App() {
               
               <button 
                 onClick={togglePlay}
-                className={`relative flex items-center justify-center group ${autoplayBlocked ? 'w-auto px-6 h-12 rounded-full' : 'w-[88px] h-[88px] rounded-full'}`}
+                className="relative w-[88px] h-[88px] flex flex-shrink-0 items-center justify-center group"
               >
-                <div className={`absolute inset-0 bg-gradient-to-tr from-[#ff3b30] to-[#ff8b30] opacity-80 group-hover:opacity-100 transition-all duration-300 shadow-[0_0_30px_rgba(255,59,48,0.4)] group-hover:shadow-[0_0_40px_rgba(255,59,48,0.6)] group-hover:scale-105 ${autoplayBlocked ? 'rounded-full' : 'rounded-full'}`}></div>
-                <div className={`absolute inset-1 bg-black flex items-center justify-center z-10 group-hover:scale-[1.02] transition-transform duration-300 ${autoplayBlocked ? 'rounded-[100px] px-5 gap-2' : 'rounded-full'}`}>
-                  {isPlaying ? (
+                <div className="absolute inset-0 bg-gradient-to-tr from-[#ff3b30] to-[#ff8b30] opacity-80 group-hover:opacity-100 transition-all duration-300 shadow-[0_0_30px_rgba(255,59,48,0.4)] group-hover:shadow-[0_0_40px_rgba(255,59,48,0.6)] group-hover:scale-105 rounded-full"></div>
+                <div className="absolute inset-1 bg-black flex items-center justify-center z-10 group-hover:scale-[1.02] transition-transform duration-300 rounded-full">
+                  {isLoadingAudio ? (
+                    <Loader2 className="w-8 h-8 text-white/70 fill-current animate-spin" />
+                  ) : isPlaying ? (
                     <Pause className="w-8 h-8 text-white fill-current" />
-                  ) : autoplayBlocked ? (
-                    <>
-                      <Play className="w-5 h-5 text-white fill-current" />
-                      <span className="text-white font-bold text-sm tracking-wide">ATIVAR SOM</span>
-                    </>
                   ) : (
                     <Play className="w-8 h-8 text-white fill-current ml-1" />
                   )}
                 </div>
+                {/* Floating "ATIVAR SOM" tooltip to avoid layout shift */}
+                {autoplayBlocked && !isPlaying && !isLoadingAudio && (
+                  <div className="absolute -top-10 bg-white text-black text-[11px] font-extrabold px-3 py-1.5 rounded-full shadow-[0_4px_12px_rgba(0,0,0,0.5)] whitespace-nowrap animate-bounce pointer-events-none tracking-widest">
+                    ATIVAR SOM
+                    <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2.5 h-2.5 bg-white rotate-45"></div>
+                  </div>
+                )}
               </button>
 
               <button className="w-12 h-12 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 text-white/70 hover:text-white transition-all active:scale-95">
@@ -331,19 +366,21 @@ export default function App() {
             </div>
 
             {/* Volume Control */}
-            <div className="flex items-center gap-4 px-4 w-full max-w-xs">
+            <div className={`flex items-center gap-4 px-4 w-full max-w-xs ${isIOS ? 'justify-center' : ''}`}>
               <button onClick={toggleMute} className="text-[rgba(255,255,255,0.6)] hover:text-white transition-colors">
                 {isMuted || volume === 0 ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
               </button>
-              <input
-                type="range"
-                min="0"
-                max="1"
-                step="0.01"
-                value={isMuted ? 0 : volume}
-                onChange={handleVolumeChange}
-                className="flex-1 h-1.5 bg-white/10 rounded-full appearance-none [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:rounded-full cursor-pointer"
-              />
+              {!isIOS && (
+                <input
+                  type="range"
+                  min="0"
+                  max="1"
+                  step="0.01"
+                  value={isMuted ? 0 : volume}
+                  onChange={handleVolumeChange}
+                  className="flex-1 h-1.5 bg-white/10 rounded-full appearance-none [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:rounded-full cursor-pointer"
+                />
+              )}
             </div>
 
             {/* Social Links */}
@@ -364,7 +401,13 @@ export default function App() {
           onPlay={() => {
             setIsPlaying(true);
             setAutoplayBlocked(false);
+            setIsLoadingAudio(false);
           }}
+          onPlaying={() => {
+            setIsPlaying(true);
+            setIsLoadingAudio(false);
+          }}
+          onWaiting={() => setIsLoadingAudio(true)}
           onPause={() => setIsPlaying(false)}
           onEnded={() => setIsPlaying(false)}
           onError={handleAudioError}
