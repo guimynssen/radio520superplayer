@@ -397,6 +397,16 @@ export default function App() {
         <audio
           ref={audioRef}
           src={streamUrl}
+          preload="auto"
+          onCanPlay={() => setIsLoadingAudio(false)}
+          onTimeUpdate={(e) => {
+            if (e.currentTarget.currentTime > 0) {
+              setIsLoadingAudio(false);
+              if (!isPlaying && !userPaused.current) {
+                 setIsPlaying(true);
+              }
+            }
+          }}
           onPlay={() => {
             setIsPlaying(true);
             setAutoplayBlocked(false);
@@ -410,7 +420,10 @@ export default function App() {
           onPause={() => setIsPlaying(false)}
           onEnded={() => setIsPlaying(false)}
           onError={handleAudioError}
-          onStalled={handleAudioError}
+          onStalled={() => {
+             // Let it buffer organically before forcing hard reconnect
+             setIsLoadingAudio(true);
+          }}
         />
 
         {/* Copied/Refresh Toasts */}

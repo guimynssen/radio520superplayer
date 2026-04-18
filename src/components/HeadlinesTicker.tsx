@@ -36,7 +36,7 @@ export const HeadlinesTicker = React.memo(({ refreshTrigger }: { refreshTrigger?
     };
   }, [fetchHeadlines]);
 
-  const tickerItems = headlines.length > 0 ? [...headlines, ...headlines] : [];
+  const tickerItems = headlines.length > 0 ? [...headlines, ...headlines, ...headlines, ...headlines, ...headlines, ...headlines] : [];
 
   return (
     <div className="w-full overflow-hidden bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)] rounded-xl py-2.5 mb-[30px] relative flex items-center min-h-[42px]">
