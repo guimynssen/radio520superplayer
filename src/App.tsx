@@ -43,7 +43,6 @@ export default function App() {
   const [refreshCount, setRefreshCount] = useState(0);
   const [showWhatsappPopup, setShowWhatsappPopup] = useState(false);
   const [showCopiedToast, setShowCopiedToast] = useState(false);
-  const [showRefreshToast, setShowRefreshToast] = useState(false);
   const [showDownloadModal, setShowDownloadModal] = useState(false);
   const [autoplayBlocked, setAutoplayBlocked] = useState(false);
   const [isLoadingAudio, setIsLoadingAudio] = useState(true);
@@ -79,16 +78,6 @@ export default function App() {
     } else {
       setIsLoadingAudio(false);
     }
-  }, []);
-
-  useEffect(() => {
-    // Auto-refresh the programming data every 2 hours (7200000 ms) without interrupting audio
-    const refreshTimer = setInterval(() => {
-      setProgramInfo(getProgramInfo());
-      setShowRefreshToast(true);
-      setTimeout(() => setShowRefreshToast(false), 3000);
-    }, 7200000);
-    return () => clearInterval(refreshTimer);
   }, []);
 
   useEffect(() => {
@@ -415,17 +404,6 @@ export default function App() {
             >
               <Share2 className="w-4 h-4" />
               Link copiado!
-            </motion.div>
-          )}
-          {showRefreshToast && (
-            <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              className="fixed top-6 left-1/2 -translate-x-1/2 z-50 bg-[rgba(255,255,255,0.1)] backdrop-blur-md border border-white/20 text-white px-4 py-2 rounded-full shadow-lg text-sm font-bold flex items-center gap-2"
-            >
-              <RefreshCw className="w-4 h-4 animate-spin" />
-              Atualizado!
             </motion.div>
           )}
         </AnimatePresence>
