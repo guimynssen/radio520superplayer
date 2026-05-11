@@ -200,15 +200,16 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0c] flex flex-col items-center justify-center p-4 md:p-10 relative overflow-hidden font-sans text-white">
-      {/* Background Gradients */}
-      <div className="absolute inset-0 z-0 pointer-events-none" style={{
-        backgroundImage: `
-          radial-gradient(circle at 20% 20%, #2c0b0e 0%, transparent 40%),
-          radial-gradient(circle at 80% 80%, #1a1a2e 0%, transparent 50%),
-          radial-gradient(circle at 50% 50%, #0a0a0c 0%, #000 100%)
-        `
-      }} />
+    <div className="min-h-screen flex flex-col items-center justify-center p-4 md:p-10 relative overflow-hidden font-sans text-white">
+      {/* Background Image */}
+      <div className="absolute inset-0 z-0 pointer-events-none bg-black">
+        <div className="absolute inset-0" style={{
+          backgroundImage: `url('https://public-rf-upload.minhawebradio.net/249695/ad/1e7f8121be68d1901918181128a0309a.png')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          opacity: 0.4
+        }} />
+      </div>
 
       <div className="relative z-10 w-full max-w-[1024px] flex flex-col h-full">
         {/* Header */}
