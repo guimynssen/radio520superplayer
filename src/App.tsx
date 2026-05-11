@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useRef, useEffect } from 'react';
-import { Play, Pause, Volume2, VolumeX, Instagram, Youtube, SkipBack, SkipForward, X, Share2, RefreshCw, Download, Loader2 } from 'lucide-react';
+import { Play, Pause, Volume2, VolumeX, Instagram, SkipBack, SkipForward, X, Share2, RefreshCw, Download, Loader2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { HeadlinesTicker } from './components/HeadlinesTicker';
 import { getProgramInfo } from './data/schedule';
@@ -18,6 +18,12 @@ const WhatsappIcon = ({ className }: { className?: string }) => (
 const XIcon = ({ className }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="currentColor">
     <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+  </svg>
+);
+
+const TiktokIcon = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M19.589 6.686a4.793 4.793 0 0 1-3.77-4.245V2h-3.445v13.672a2.896 2.896 0 0 1-5.201 1.743l-.002-.001.002.001a2.895 2.895 0 0 1 3.183-4.51v-3.5a6.329 6.329 0 0 0-5.394 10.692 6.33 6.33 0 0 0 10.857-4.424V8.687a8.182 8.182 0 0 0 4.773 1.526V6.79a4.831 4.831 0 0 1-1.003-.104z"/>
   </svg>
 );
 
@@ -354,7 +360,7 @@ export default function App() {
             <div className="flex items-center gap-4 mt-8 pt-8 border-t border-white/10 w-full justify-center">
               <SocialIconButton href="https://wa.me/5511988277967" icon={<WhatsappIcon className="w-5 h-5" />} colorClass="hover:text-[#25D366] hover:bg-[#25D366]/10" />
               <SocialIconButton href="https://instagram.com/radio520oficial" icon={<Instagram className="w-5 h-5" />} colorClass="hover:text-[#E1306C] hover:bg-[#E1306C]/10" />
-              <SocialIconButton href="https://youtube.com/@radio520real?si=F1u1CbUDmjePt9Pn" icon={<Youtube className="w-5 h-5" />} colorClass="hover:text-[#FF0000] hover:bg-[#FF0000]/10" />
+              <SocialIconButton href="https://www.tiktok.com/@radio520oficial?_r=1&_t=ZS-96GxhY86KYb" icon={<TiktokIcon className="w-5 h-5" />} colorClass="hover:text-white hover:bg-white/10" />
               <SocialIconButton href="https://x.com/radio_520" icon={<XIcon className="w-4 h-4" />} colorClass="hover:text-white hover:bg-white/10" />
             </div>
 
