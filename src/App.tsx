@@ -39,7 +39,8 @@ export default function App() {
   const carouselImages = [
     "https://public-rf-upload.minhawebradio.net/249695/ad/b30edc6bd71dc1fc388825269de83aca.jpeg", // Logo Original
     "https://public-rf-upload.minhawebradio.net/249695/ad/a5c65ae7f0a45d8f5e0c8021d95c3c10.jpeg", // Nova 1
-    "https://public-rf-upload.minhawebradio.net/249695/ad/5585acfa426370ca3d4fda0479bfae28.png"  // Nova 2
+    "https://public-rf-upload.minhawebradio.net/249695/ad/5585acfa426370ca3d4fda0479bfae28.png",  // Nova 2
+    "https://public-rf-upload.minhawebradio.net/249695/ad/274256c9f63c83296250e53a2ed6e37d.png"   // Muse
   ];
 
   const streamBaseUrl = "https://servidor40.brlogic.com:7054/live"; 
