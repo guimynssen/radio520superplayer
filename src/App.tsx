@@ -36,12 +36,30 @@ export default function App() {
   const userPaused = useRef(false);
 
   // Carousel images
-  const carouselImages = [
-    "https://public-rf-upload.minhawebradio.net/249695/ad/b30edc6bd71dc1fc388825269de83aca.jpeg", // Logo Original
+  const [carouselImages, setCarouselImages] = useState<string[]>([
+    "https://public-rf-upload.minhawebradio.net/249695/ad/477daf46a5704eca4b4c252b8b0c7af7.png", // Logo Original
     "https://public-rf-upload.minhawebradio.net/249695/ad/a5c65ae7f0a45d8f5e0c8021d95c3c10.jpeg", // Nova 1
     "https://public-rf-upload.minhawebradio.net/249695/ad/5585acfa426370ca3d4fda0479bfae28.png",  // Nova 2
     "https://public-rf-upload.minhawebradio.net/249695/ad/274256c9f63c83296250e53a2ed6e37d.png"   // Muse
-  ];
+  ]);
+
+  useEffect(() => {
+    const fetchVisualizerImages = async () => {
+      try {
+        const response = await fetch(`/visualizer.json?ts=${Date.now()}`, { cache: "no-store" });
+        if (!response.ok) throw new Error("Network response was not ok");
+        const data = await response.json();
+        setCarouselImages(data);
+      } catch (error) {
+        console.error("Failed to fetch visualizer images:", error);
+      }
+    };
+
+    fetchVisualizerImages();
+    // Fetch every 2 minutes like headlines
+    const interval = setInterval(fetchVisualizerImages, 120000);
+    return () => clearInterval(interval);
+  }, []);
 
   const streamBaseUrl = "https://servidor40.brlogic.com:7054/live"; 
   const [streamUrl, setStreamUrl] = useState(streamBaseUrl);
