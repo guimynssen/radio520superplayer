@@ -49,15 +49,16 @@ export default function App() {
         const response = await fetch(`/visualizer.json?ts=${Date.now()}`, { cache: "no-store" });
         if (!response.ok) throw new Error("Network response was not ok");
         const data = await response.json();
-        setCarouselImages(data);
+        if (Array.isArray(data) && data.length > 0) {
+          setCarouselImages(data);
+        }
       } catch (error) {
         console.error("Failed to fetch visualizer images:", error);
       }
     };
 
     fetchVisualizerImages();
-    // Fetch every 2 minutes like headlines
-    const interval = setInterval(fetchVisualizerImages, 120000);
+    const interval = setInterval(fetchVisualizerImages, 15000); // Fetch every 15 seconds
     return () => clearInterval(interval);
   }, []);
 
@@ -122,11 +123,12 @@ export default function App() {
 
   useEffect(() => {
     // Rotate carousel image every 6 seconds
+    if (carouselImages.length === 0) return;
     const imageInterval = setInterval(() => {
       setCurrentImageIndex((prev) => (prev + 1) % carouselImages.length);
     }, 6000);
     return () => clearInterval(imageInterval);
-  }, [carouselImages.length]);
+  }, [carouselImages]);
 
   const handleAudioError = () => {
     console.error("Audio connection lost or stalled. Attempting to reconnect...");
@@ -288,7 +290,7 @@ export default function App() {
                   className="absolute inset-0 w-full h-full"
                 >
                   <img 
-                    src={carouselImages[currentImageIndex]} 
+                    src={carouselImages[currentImageIndex % carouselImages.length] || carouselImages[0]} 
                     alt="Rádio 520 Cover" 
                     className="w-full h-full object-cover transform scale-[1.01] group-hover:scale-105 transition-transform duration-700"
                     referrerPolicy="no-referrer"

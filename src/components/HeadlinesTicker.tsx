@@ -21,7 +21,7 @@ export const HeadlinesTicker = React.memo(({ refreshTrigger }: { refreshTrigger?
   useEffect(() => {
     const fetchInterval = setInterval(() => {
       fetchHeadlines();
-    }, 120000); // 2 minutos
+    }, 15000); // 15 seconds
 
     return () => clearInterval(fetchInterval);
   }, [fetchHeadlines]);
