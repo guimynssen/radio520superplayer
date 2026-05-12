@@ -39,7 +39,7 @@ export default function App() {
   const [carouselImages, setCarouselImages] = useState<string[]>([
     "https://public-rf-upload.minhawebradio.net/249695/ad/477daf46a5704eca4b4c252b8b0c7af7.png", // Logo Original
     "https://public-rf-upload.minhawebradio.net/249695/ad/a5c65ae7f0a45d8f5e0c8021d95c3c10.jpeg", // Nova 1
-    "https://public-rf-upload.minhawebradio.net/249695/ad/5585acfa426370ca3d4fda0479bfae28.png",  // Nova 2
+    "https://public-rf-upload.minhawebradio.net/249695/ad/7a3a2207a4612ecc2e179418abe5218f.png",  // Nova 2
     "https://public-rf-upload.minhawebradio.net/249695/ad/274256c9f63c83296250e53a2ed6e37d.png"   // Muse
   ]);
 
