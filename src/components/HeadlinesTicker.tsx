@@ -46,7 +46,7 @@ export const HeadlinesTicker = React.memo(({ refreshTrigger }: { refreshTrigger?
       {/* Overlay da Logo Puro CSS - Zero Travamentos na camada React */}
       <div className="absolute inset-0 z-20 flex items-center justify-center bg-[#0a0a0c]/95 backdrop-blur-md rounded-xl animate-logo-cycle opacity-0 pointer-events-none">
         <img 
-          src="https://public-rf-upload.minhawebradio.net/249695/ad/563fe73a5c00172f2eee3693bea4a0de.jpeg" 
+          src="https://public-rf-upload.minhawebradio.net/249695/ad/2e2ab64072d9776f2f5381625c6d1ac0.jpeg" 
           alt="Logo Rádio 520" 
           className="h-6 object-contain rounded" 
         />
