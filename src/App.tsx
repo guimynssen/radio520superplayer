@@ -319,18 +319,18 @@ export default function App() {
                 onClick={togglePlay}
                 className="relative w-[88px] h-[88px] flex flex-shrink-0 items-center justify-center group cursor-pointer"
               >
-                {isPlaying && !isLoadingAudio && (
+                {isPlaying && !isLoadingAudio ? (
                   <>
-                    <div className="absolute w-[100px] h-[100px] rounded-full border-2 border-[#ff3b30] animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite] opacity-40 pointer-events-none"></div>
-                    <div className="absolute w-[120px] h-[120px] rounded-full border border-[#ff3b30] animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite_0.6s] opacity-20 pointer-events-none"></div>
-                    <div className="absolute w-[140px] h-[140px] rounded-full border border-[#ff3b30] animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite_1.2s] opacity-10 pointer-events-none"></div>
+                    <div className="absolute inset-[-4px] rounded-full bg-gradient-to-tr from-[#ff3b30]/50 to-[#ff8b30]/50 blur-md animate-pulse pointer-events-none transition-all duration-1000"></div>
+                    <div className="absolute inset-[-12px] rounded-full bg-[#ff3b30]/20 blur-xl animate-[pulse_4s_ease-in-out_infinite] pointer-events-none transition-all duration-1000"></div>
+                  </>
+                ) : !isLoadingAudio && (
+                  <>
+                    <div className="absolute inset-[-4px] rounded-full border border-transparent border-t-[#ff3b30]/60 border-r-[#ff3b30]/10 animate-[spin_3s_linear_infinite] pointer-events-none transition-all duration-1000"></div>
+                    <div className="absolute inset-[-8px] rounded-full border border-transparent border-b-[#ff3b30]/40 border-l-[#ff3b30]/10 animate-[spin_5s_linear_infinite_reverse] pointer-events-none transition-all duration-1000"></div>
                   </>
                 )}
                 
-                {/* Efeito de Ping (Onda) ao bloquear Auto-Play para chamar atenção ao invés de usar tooltip */}
-                {autoplayBlocked && !isPlaying && !isLoadingAudio && (
-                  <div className="absolute inset-0 rounded-full border-2 border-[#ff3b30] animate-ping opacity-75 pointer-events-none"></div>
-                )}
                 <div className="absolute inset-0 bg-gradient-to-tr from-[#ff3b30] to-[#ff8b30] opacity-80 md:group-hover:opacity-100 transition-all duration-300 md:group-hover:shadow-[0_0_40px_rgba(255,59,48,0.6)] md:group-hover:scale-105 rounded-full pointer-events-none"></div>
                 <div className="absolute inset-1 bg-[#151515] flex items-center justify-center z-10 md:group-hover:scale-[1.02] transition-transform duration-300 rounded-full pointer-events-none shadow-inner">
                   {isLoadingAudio ? (
