@@ -249,21 +249,21 @@ export default function App() {
           <div className="flex items-center gap-2 md:gap-3">
             <button 
               onClick={() => setShowDownloadModal(true)}
-              className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 text-white/70 hover:text-white transition-all active:scale-95"
+              className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 text-white/70 hover:text-[#ff3b30] transition-all hover:shadow-[0_0_15px_rgba(255,59,48,0.3)] active:scale-95"
               title="Instalar App"
             >
               <Download className="w-4 h-4 md:w-5 md:h-5" />
             </button>
             <button 
               onClick={handleRefresh}
-              className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 text-white/70 hover:text-white transition-all active:scale-95"
+              className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 text-white/70 hover:text-[#ff3b30] transition-all hover:shadow-[0_0_15px_rgba(255,59,48,0.3)] active:scale-95"
               title="Atualizar"
             >
               <RefreshCw className="w-4 h-4 md:w-5 md:h-5" />
             </button>
             <button 
               onClick={handleShare}
-              className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 text-white/70 hover:text-white transition-all active:scale-95"
+              className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 text-white/70 hover:text-[#ff3b30] transition-all hover:shadow-[0_0_15px_rgba(255,59,48,0.3)] active:scale-95"
               title="Compartilhar"
             >
               <Share2 className="w-4 h-4 md:w-5 md:h-5" />
@@ -311,32 +311,40 @@ export default function App() {
 
             {/* Controls */}
             <div className="flex items-center gap-8 mb-[30px]">
-              <button className="w-12 h-12 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 text-white/70 hover:text-white transition-all active:scale-95">
-                <SkipBack className="w-5 h-5 fill-current" />
+              <button className="w-12 h-12 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 text-white/50 hover:text-white transition-all duration-300 hover:shadow-[0_0_20px_rgba(255,255,255,0.15)] active:scale-95 group">
+                <SkipBack className="w-5 h-5 fill-current group-hover:scale-110 transition-transform" />
               </button>
               
               <button 
                 onClick={togglePlay}
                 className="relative w-[88px] h-[88px] flex flex-shrink-0 items-center justify-center group cursor-pointer"
               >
+                {isPlaying && !isLoadingAudio && (
+                  <>
+                    <div className="absolute w-[100px] h-[100px] rounded-full border-2 border-[#ff3b30] animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite] opacity-40 pointer-events-none"></div>
+                    <div className="absolute w-[120px] h-[120px] rounded-full border border-[#ff3b30] animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite_0.6s] opacity-20 pointer-events-none"></div>
+                    <div className="absolute w-[140px] h-[140px] rounded-full border border-[#ff3b30] animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite_1.2s] opacity-10 pointer-events-none"></div>
+                  </>
+                )}
+                
                 {/* Efeito de Ping (Onda) ao bloquear Auto-Play para chamar atenção ao invés de usar tooltip */}
                 {autoplayBlocked && !isPlaying && !isLoadingAudio && (
                   <div className="absolute inset-0 rounded-full border-2 border-[#ff3b30] animate-ping opacity-75 pointer-events-none"></div>
                 )}
                 <div className="absolute inset-0 bg-gradient-to-tr from-[#ff3b30] to-[#ff8b30] opacity-80 md:group-hover:opacity-100 transition-all duration-300 md:group-hover:shadow-[0_0_40px_rgba(255,59,48,0.6)] md:group-hover:scale-105 rounded-full pointer-events-none"></div>
-                <div className="absolute inset-1 bg-black flex items-center justify-center z-10 md:group-hover:scale-[1.02] transition-transform duration-300 rounded-full pointer-events-none">
+                <div className="absolute inset-1 bg-[#151515] flex items-center justify-center z-10 md:group-hover:scale-[1.02] transition-transform duration-300 rounded-full pointer-events-none shadow-inner">
                   {isLoadingAudio ? (
-                    <Loader2 className="w-8 h-8 text-white/70 fill-current animate-spin" />
+                    <Loader2 className="w-8 h-8 text-[#ff3b30] animate-spin" />
                   ) : isPlaying ? (
-                    <Pause className="w-8 h-8 text-white fill-current" />
+                    <Pause className="w-8 h-8 text-white fill-current drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]" />
                   ) : (
-                    <Play className="w-8 h-8 text-white fill-current ml-1" />
+                    <Play className="w-8 h-8 text-white fill-current ml-1 drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]" />
                   )}
                 </div>
               </button>
 
-              <button className="w-12 h-12 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 text-white/70 hover:text-white transition-all active:scale-95">
-                <SkipForward className="w-5 h-5 fill-current" />
+              <button className="w-12 h-12 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 text-white/50 hover:text-white transition-all duration-300 hover:shadow-[0_0_20px_rgba(255,255,255,0.15)] active:scale-95 group">
+                <SkipForward className="w-5 h-5 fill-current group-hover:scale-110 transition-transform" />
               </button>
             </div>
 

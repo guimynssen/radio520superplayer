@@ -41,14 +41,19 @@ export const HeadlinesTicker = React.memo(({ refreshTrigger }: { refreshTrigger?
   ));
 
   return (
-    <div className="w-full overflow-hidden bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)] rounded-xl py-2.5 mb-[30px] relative flex items-center min-h-[42px] group">
+    <div className="w-full overflow-hidden bg-[rgba(255,255,255,0.05)] border border-[#ff3b30]/60 shadow-[0_0_15px_rgba(255,59,48,0.15)] rounded-xl py-2.5 mb-[30px] relative flex items-center min-h-[42px] group">
       
       {/* Overlay da Logo Puro CSS - Zero Travamentos na camada React */}
-      <div className="absolute inset-0 z-20 flex items-center justify-center bg-[#0a0a0c]/95 backdrop-blur-md rounded-xl animate-logo-cycle opacity-0 pointer-events-none">
+      <div className="absolute inset-0 z-20 flex items-center justify-center bg-[#0a0a0c]/95 backdrop-blur-md rounded-xl animate-logo-cycle opacity-0 pointer-events-none overflow-hidden">
+        {/* Efeito de Ondas de Rádio */}
+        <div className="absolute w-16 h-16 rounded-full border-2 border-[#ff3b30] animate-ping opacity-40"></div>
+        <div className="absolute w-24 h-24 rounded-full border border-[#ff3b30] animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite_0.5s] opacity-20"></div>
+        <div className="absolute w-32 h-32 rounded-full border border-[#ff3b30] animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite_1s] opacity-10"></div>
+        
         <img 
           src="https://public-rf-upload.minhawebradio.net/249695/ad/2e2ab64072d9776f2f5381625c6d1ac0.jpeg" 
           alt="Logo Rádio 520" 
-          className="h-6 object-contain rounded" 
+          className="h-6 object-contain rounded relative z-10 shadow-[0_0_20px_rgba(255,59,48,0.5)]" 
         />
       </div>
 
