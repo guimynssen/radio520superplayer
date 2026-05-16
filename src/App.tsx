@@ -50,7 +50,9 @@ export default function App() {
         if (!response.ok) throw new Error("Network response was not ok");
         const data = await response.json();
         if (Array.isArray(data) && data.length > 0) {
-          setCarouselImages(data);
+          setCarouselImages((prev) => 
+            JSON.stringify(prev) === JSON.stringify(data) ? prev : data
+          );
         }
       } catch (error) {
         console.error("Failed to fetch visualizer images:", error);

@@ -8,7 +8,7 @@ export const HeadlinesTicker = React.memo(({ refreshTrigger }: { refreshTrigger?
       const response = await fetch(`/headlines.json?ts=${Date.now()}`, { cache: "no-store" });
       if (!response.ok) throw new Error("Network response was not ok");
       const data = await response.json();
-      setHeadlines(data);
+      setHeadlines(prev => JSON.stringify(prev) === JSON.stringify(data) ? prev : data);
     } catch (error) {
       console.error("Failed to fetch headlines:", error);
     }
