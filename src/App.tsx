@@ -243,8 +243,12 @@ export default function App() {
       <div className="relative z-10 w-full max-w-[1024px] flex flex-col h-full">
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
-          <div className="text-[32px] font-black tracking-tight flex items-center gap-2.5">
-            RADIO<span className="text-[#ff3b30]">520</span>
+          <div className="flex items-center gap-2.5">
+            <img 
+              src="https://public-rf-upload.minhawebradio.net/249695/ad/1ae99c10cf9aec8b2b61ddbc4d7d9d7d.jpeg" 
+              alt="Radio 520 Logo" 
+              className="h-10 object-contain rounded"
+            />
           </div>
           <div className="flex items-center gap-2 md:gap-3">
             <button 
