@@ -253,26 +253,26 @@ export default function App() {
           <div className="flex items-center gap-2 md:gap-3">
             <button 
               onClick={() => setShowDownloadModal(true)}
-              className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 text-white/70 hover:text-[#ff3b30] transition-all hover:shadow-[0_0_15px_rgba(255,59,48,0.3)] active:scale-95"
+              className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 text-white/70 hover:text-[#FFCC00] transition-all hover:shadow-[0_0_15px_rgba(255,204,0,0.3)] active:scale-95"
               title="Instalar App"
             >
               <Download className="w-4 h-4 md:w-5 md:h-5" />
             </button>
             <button 
               onClick={handleRefresh}
-              className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 text-white/70 hover:text-[#ff3b30] transition-all hover:shadow-[0_0_15px_rgba(255,59,48,0.3)] active:scale-95"
+              className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 text-white/70 hover:text-[#FFCC00] transition-all hover:shadow-[0_0_15px_rgba(255,204,0,0.3)] active:scale-95"
               title="Atualizar"
             >
               <RefreshCw className="w-4 h-4 md:w-5 md:h-5" />
             </button>
             <button 
               onClick={handleShare}
-              className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 text-white/70 hover:text-[#ff3b30] transition-all hover:shadow-[0_0_15px_rgba(255,59,48,0.3)] active:scale-95"
+              className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 text-white/70 hover:text-[#FFCC00] transition-all hover:shadow-[0_0_15px_rgba(255,204,0,0.3)] active:scale-95"
               title="Compartilhar"
             >
               <Share2 className="w-4 h-4 md:w-5 md:h-5" />
             </button>
-            <div className="bg-[#ff3b30] px-2 md:px-3 py-1 rounded text-[10px] md:text-xs font-bold uppercase tracking-widest shadow-[0_0_20px_rgba(255,59,48,0.4)] ml-1 md:ml-2">
+            <div className="bg-[#FFCC00] text-black px-2 md:px-3 py-1 rounded text-[10px] md:text-xs font-bold uppercase tracking-widest shadow-[0_0_20px_rgba(255,204,0,0.4)] ml-1 md:ml-2">
               Ao Vivo
             </div>
           </div>
@@ -325,20 +325,20 @@ export default function App() {
               >
                 {isPlaying && !isLoadingAudio ? (
                   <>
-                    <div className="absolute inset-[-4px] rounded-full bg-gradient-to-tr from-[#ff3b30]/50 to-[#ff8b30]/50 blur-md animate-pulse pointer-events-none transition-all duration-1000"></div>
-                    <div className="absolute inset-[-12px] rounded-full bg-[#ff3b30]/20 blur-xl animate-[pulse_4s_ease-in-out_infinite] pointer-events-none transition-all duration-1000"></div>
+                    <div className="absolute inset-[-4px] rounded-full bg-gradient-to-tr from-[#FFCC00]/50 to-[#FFE600]/50 blur-md animate-pulse pointer-events-none transition-all duration-1000"></div>
+                    <div className="absolute inset-[-12px] rounded-full bg-[#FFCC00]/20 blur-xl animate-[pulse_4s_ease-in-out_infinite] pointer-events-none transition-all duration-1000"></div>
                   </>
                 ) : !isLoadingAudio && (
                   <>
-                    <div className="absolute inset-[-4px] rounded-full border border-transparent border-t-[#ff3b30]/60 border-r-[#ff3b30]/10 animate-[spin_3s_linear_infinite] pointer-events-none transition-all duration-1000"></div>
-                    <div className="absolute inset-[-8px] rounded-full border border-transparent border-b-[#ff3b30]/40 border-l-[#ff3b30]/10 animate-[spin_5s_linear_infinite_reverse] pointer-events-none transition-all duration-1000"></div>
+                    <div className="absolute inset-[-4px] rounded-full border border-transparent border-t-[#FFCC00]/60 border-r-[#FFCC00]/10 animate-[spin_3s_linear_infinite] pointer-events-none transition-all duration-1000"></div>
+                    <div className="absolute inset-[-8px] rounded-full border border-transparent border-b-[#FFCC00]/40 border-l-[#FFCC00]/10 animate-[spin_5s_linear_infinite_reverse] pointer-events-none transition-all duration-1000"></div>
                   </>
                 )}
                 
-                <div className="absolute inset-0 bg-gradient-to-tr from-[#ff3b30] to-[#ff8b30] opacity-80 md:group-hover:opacity-100 transition-all duration-300 md:group-hover:shadow-[0_0_40px_rgba(255,59,48,0.6)] md:group-hover:scale-105 rounded-full pointer-events-none"></div>
+                <div className="absolute inset-0 bg-gradient-to-tr from-[#FFCC00] to-[#FFE600] opacity-80 md:group-hover:opacity-100 transition-all duration-300 md:group-hover:shadow-[0_0_40px_rgba(255,204,0,0.6)] md:group-hover:scale-105 rounded-full pointer-events-none"></div>
                 <div className="absolute inset-1 bg-[#151515] flex items-center justify-center z-10 md:group-hover:scale-[1.02] transition-transform duration-300 rounded-full pointer-events-none shadow-inner">
                   {isLoadingAudio ? (
-                    <Loader2 className="w-8 h-8 text-[#ff3b30] animate-spin" />
+                    <Loader2 className="w-8 h-8 text-[#FFCC00] animate-spin" />
                   ) : isPlaying ? (
                     <Pause className="w-8 h-8 text-white fill-current drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]" />
                   ) : (
@@ -357,7 +357,7 @@ export default function App() {
               {[...Array(10)].map((_, i) => (
                 <motion.div
                   key={i}
-                  className="w-1.5 bg-[#ff3b30] rounded-full opacity-60"
+                  className="w-1.5 bg-[#FFCC00] rounded-full opacity-60"
                   animate={{
                     height: isPlaying ? ['30%', '100%', '40%', '80%', '50%'] : '10%',
                   }}
@@ -467,7 +467,7 @@ export default function App() {
                   <X className="w-5 h-5" />
                 </button>
                 
-                <div className="w-12 h-12 rounded-full bg-[#ff3b30]/20 text-[#ff3b30] flex items-center justify-center mb-5">
+                <div className="w-12 h-12 rounded-full bg-[#FFCC00]/20 text-[#FFCC00] flex items-center justify-center mb-5">
                   <Download className="w-6 h-6" />
                 </div>
                 
