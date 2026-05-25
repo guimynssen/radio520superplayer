@@ -233,7 +233,7 @@ export default function App() {
       {/* Background Image */}
       <div className="absolute inset-0 z-0 pointer-events-none bg-black">
         <div className="absolute inset-0" style={{
-          backgroundImage: `url('https://public-rf-upload.minhawebradio.net/249695/ad/1e7f8121be68d1901918181128a0309a.png')`,
+          backgroundImage: `url('https://public-rf-upload.minhawebradio.net/249695/ad/8ff9cb2322a670531dcd2b85d7c6e89b.jpeg')`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           opacity: 0.4

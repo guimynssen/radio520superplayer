@@ -152,10 +152,12 @@ export const scheduleData: WeeklySchedule = {
 };
 
 export function getProgramInfo(): { current: string; next: string } {
-  const now = new Date();
-  const day = now.getDay();
-  const hours = now.getHours();
-  const minutes = now.getMinutes();
+  const nowStr = new Date().toLocaleString('en-US', { timeZone: 'America/Sao_Paulo' });
+  const saoPauloDate = new Date(nowStr);
+  
+  const day = saoPauloDate.getDay();
+  const hours = saoPauloDate.getHours();
+  const minutes = saoPauloDate.getMinutes();
   const currentTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
 
   const todaySchedule = scheduleData[day];
