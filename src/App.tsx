@@ -232,11 +232,8 @@ export default function App() {
     <div className="min-h-screen flex flex-col items-center justify-center p-4 md:p-10 relative overflow-hidden font-sans text-white">
       {/* Background Image */}
       <div className="absolute inset-0 z-0 pointer-events-none bg-black">
-        <div className="absolute inset-0" style={{
+        <div className="absolute inset-0 bg-cover bg-center bg-no-repeat md:bg-[length:100%_auto]" style={{
           backgroundImage: `url('https://public-rf-upload.minhawebradio.net/249695/ad/89b41dbeeedbc3001a678949f7553607.png')`,
-          backgroundSize: '100% auto',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
           opacity: 0.4
         }} />
       </div>
