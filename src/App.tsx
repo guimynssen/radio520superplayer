@@ -37,7 +37,7 @@ export default function App() {
 
   // Carousel images
   const [carouselImages, setCarouselImages] = useState<string[]>([
-    "https://public-rf-upload.minhawebradio.net/249695/ad/d5effb5ac1b38f76141f0a22131cf9df.png", // Logo Original
+    "https://public-rf-upload.minhawebradio.net/249695/ad/bf261d6dfbc3213dc0db65fe790454c1.png", // Logo Original
     "https://public-rf-upload.minhawebradio.net/249695/ad/a5c65ae7f0a45d8f5e0c8021d95c3c10.jpeg", // Nova 1
     "https://public-rf-upload.minhawebradio.net/249695/ad/7a3a2207a4612ecc2e179418abe5218f.png",  // Nova 2
     "https://public-rf-upload.minhawebradio.net/249695/ad/a1709927e7b3fe03f946ce2531b45e3f.png"   // Muse
@@ -234,8 +234,9 @@ export default function App() {
       <div className="absolute inset-0 z-0 pointer-events-none bg-black">
         <div className="absolute inset-0" style={{
           backgroundImage: `url('https://public-rf-upload.minhawebradio.net/249695/ad/334a78358791c05000c431cb9a950b3d.png')`,
-          backgroundSize: 'cover',
+          backgroundSize: '100% auto',
           backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
           opacity: 0.4
         }} />
       </div>
@@ -245,7 +246,7 @@ export default function App() {
         <div className="flex justify-between items-center mb-6">
           <div className="flex items-center gap-2.5">
             <img 
-              src="https://public-rf-upload.minhawebradio.net/249695/ad/1ae99c10cf9aec8b2b61ddbc4d7d9d7d.jpeg" 
+              src="https://public-rf-upload.minhawebradio.net/249695/ad/60906351093718752e3f9ff0d9a754c3.png" 
               alt="Radio 520 Logo" 
               className="h-10 object-contain rounded"
             />
